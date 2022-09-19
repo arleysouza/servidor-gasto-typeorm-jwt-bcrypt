@@ -3,8 +3,7 @@ Projeto usado para testar o acesso ao SGBD com TypeORM e o controle de acesso co
 
 ## Modelo de dados da aplicação
 
-![Texto alternativo para a imagem](https://github.com/arleysouza/
-servidor-gasto-typeorm-jwt-bcrypt/blob/master/imagens/modelo.png)
+![Texto alternativo para a imagem](https://github.com/arleysouza/servidor-gasto-typeorm-jwt-bcrypt/blob/master/imagens/modelo.png)
 
 É necessário setar os parâmetros de acesso ao SGBD PostgreSQL no arquivo `src/add-data-source.ts`.
 

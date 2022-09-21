@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-import * as jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express"
+import * as jwt from "jsonwebtoken"
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -14,9 +14,9 @@ export const authorization = async (req: Request, res: Response, next: NextFunct
         // autorização no formato Bearer token
         const [,token] = authorization.split(" ")
         // valida o token
-        const decoded = <any>jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = <{id:string,mail:string}>jwt.verify(token, process.env.JWT_SECRET)
         if( !decoded || !decoded.id ){
-            res.status(401).send({error:"Não autorizado"});
+            res.status(401).send({error:"Não autorizado"})
         }
         else{
             // passa os dados pelo res.locals para  ser acessado nos controllers
@@ -24,9 +24,9 @@ export const authorization = async (req: Request, res: Response, next: NextFunct
         }
     } catch (error) {
         // o toke não é válido, a resposta com HTTP Method 401 (unauthorized)
-        res.status(401).send({error:"Não autorizado"});
-        return;
+        res.status(401).send({error:"Não autorizado"})
+        return
     }
-    return next();
+    return next()
 };
 

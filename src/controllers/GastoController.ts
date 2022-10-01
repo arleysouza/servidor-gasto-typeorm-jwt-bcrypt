@@ -18,7 +18,7 @@ class GastoController {
             gasto.descricao = descricao
             gasto.valor = parseFloat(valor)
             await AppDataSource.manager.save(Gasto, gasto)
-            res.json(gasto)
+            res.json({id:gasto.id,descricao:gasto.descricao,valor:gasto.valor})
         }
         else {
             return res.json(usuario)

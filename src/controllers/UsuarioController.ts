@@ -43,13 +43,23 @@ class UsuarioController {
     // o hook BeforeInsert não é disparado com AppDataSource.manager.save(Usuario,JSON),
     // mas é disparado com AppDataSource.manager.save(Usuario,objeto do tipo Usuario)
     // https://github.com/typeorm/typeorm/issues/5493
-    const usuario = await AppDataSource.manager.save(Usuario, obj).catch((e) => {
+    const usuario:any = await AppDataSource.manager.save(Usuario, obj).catch((e) => {
       // testa se o e-mail é repetido
       if (/(mail)[\s\S]+(already exists)/.test(e.detail)) {
         return { error: 'e-mail já existe' }
       }
       return { error: e.message }
     })
+    if (usuario.id){
+       // cria um token codificando o objeto {idusuario,mail}
+       const token = await generateToken({ id: usuario.id, mail: usuario.mail })
+       // retorna o token para o cliente
+       return res.json({
+         id: usuario.id,
+         mail: usuario.mail,
+         token
+       })
+    }
     return res.json(usuario)
   }
 
@@ -75,10 +85,13 @@ class UsuarioController {
         }
         return e
       })
+      if( !r.error ){
+        return res.json({id:usuario.id,mail:usuario.mail})
+      }
       return res.json(r)
     }
     else if (usuario && usuario.error) {
-      return res.json(usuario)
+      return res.json(mail)
     }
     else {
       return res.json({ error: "Usuário não localizado" })
